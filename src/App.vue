@@ -1,28 +1,57 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app dark>
+    <v-navigation-drawer app clipped fixed v-model="drawer">
+      <v-list two-line subheader>
+        <v-list-tile to="/">
+          <v-list-tile-action>
+            <v-icon>home</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>Home</v-list-tile-content>
+        </v-list-tile>
+        <v-subheader inset>Games</v-subheader>
+        <v-list-tile 
+          v-for="game in gameList"
+          :key="game.title"
+          :to="{path: game.path}"
+        >
+          <v-list-tile-action>
+            <v-icon>{{ game.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            {{ game.title }}
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar app fixed clipped-left @click.stop="drawer = !drawer">
+      <v-toolbar-side-icon></v-toolbar-side-icon>
+      <v-toolbar-title>Title</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items class="hidden-sm-and-down">
+        <!-- <v-btn flat>Link One</v-btn> -->
+      </v-toolbar-items>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+    <v-footer app class="footer">
+      &copy; Emkons 2018
+    </v-footer> 
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'app',
-  components: {
-    HelloWorld
-  }
+  data: () => ({
+    drawer: false,
+    gameList: [{
+      title: 'TicTac',
+      icon: 'fa-hashtag',
+      path: '/game/tictac'
+    }]
+  })
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
